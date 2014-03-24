@@ -72,7 +72,7 @@ GameManager.prototype.addStartTiles = function () {
 // Adds a tile in a random position
 GameManager.prototype.addRandomTile = function () {
   if (this.grid.cellsAvailable()) {
-    var value = Math.random() < 0.9 ? 2 : 4;
+    var value = Math.random() < 0.9 ? 1 : 2;
     var tile = new Tile(this.grid.randomAvailableCell(), value);
 
     this.grid.insertTile(tile);
@@ -130,6 +130,11 @@ GameManager.prototype.moveTile = function (tile, cell) {
   tile.updatePosition(cell);
 };
 
+GameManager.prototype.consecutive = function(a,b){
+    var fibonacci = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233];
+    return ((Math.abs(fibonacci.indexOf(a) - fibonacci.indexOf(b)) == 1) || (a===1 && b===1));
+}
+
 // Move tiles on the grid in the specified direction
 GameManager.prototype.move = function (direction) {
   // 0: up, 1: right, 2: down, 3: left
@@ -157,8 +162,8 @@ GameManager.prototype.move = function (direction) {
         var next      = self.grid.cellContent(positions.next);
 
         // Only one merger per row traversal?
-        if (next && next.value === tile.value && !next.mergedFrom) {
-          var merged = new Tile(positions.next, tile.value * 2);
+        if (next && self.consecutive(next.value, tile.value) && !next.mergedFrom) {
+          var merged = new Tile(positions.next, tile.value + next.value);
           merged.mergedFrom = [tile, next];
 
           self.grid.insertTile(merged);
@@ -171,7 +176,7 @@ GameManager.prototype.move = function (direction) {
           self.score += merged.value;
 
           // The mighty 2048 tile
-          if (merged.value === 2048) self.won = true;
+          if (merged.value === 233) self.won = true;
         } else {
           self.moveTile(tile, positions.farthest);
         }
