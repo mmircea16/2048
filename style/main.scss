@@ -403,7 +403,7 @@ hr {
     $exponent: $exponent + 1;
   }
 
-  // Super tiles (above 2048)
+  // Super tiles (above 987)
   &.tile-super .tile-inner {
     color: $bright-text-color;
     background: mix(#333, $tile-gold-color, 95%);
