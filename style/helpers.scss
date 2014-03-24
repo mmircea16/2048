@@ -16,6 +16,18 @@
   @return $value;
 }
 
+@function fibonacci($index){
+  $first: 0;
+  $second: 1;
+  $aux: 0;
+  @for $i from 1 through $index {
+    $aux: $first;
+    $first: $second;
+    $second: $first + $aux;
+  }
+  @return $second;
+}
+
 @function pow($base, $exponent) {
   @return exponent($base, $exponent);
 }

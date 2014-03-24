@@ -350,9 +350,11 @@ hr {
 
   // Build tile colors
   @while $exponent <= $limit {
-    $power: pow($base, $exponent);
+    $value: fibonacci($exponent);
 
-    &.tile-#{$power} .tile-inner {
+    &.tile-#{$exponent} .tile-inner {
+
+
       // Calculate base background color
       $gold-percent: ($exponent - 1) / ($limit - 1) * 100;
       $mixed-background: mix($tile-gold-color, $tile-color, $gold-percent);
@@ -382,14 +384,14 @@ hr {
       }
 
       // Adjust font size for bigger numbers
-      @if $power >= 100 and $power < 1000 {
+      @if $value >= 100 and $value < 1000 {
         font-size: 45px;
 
         // Media queries placed here to avoid carrying over the rest of the logic
         @include smaller($mobile-threshold) {
           font-size: 25px;
         }
-      } @else if $power >= 1000 {
+      } @else if $value >= 1000 {
         font-size: 35px;
 
         @include smaller($mobile-threshold) {
